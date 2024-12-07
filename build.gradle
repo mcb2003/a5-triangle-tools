@@ -6,6 +6,23 @@ subprojects.each { subproject ->
   evaluationDependsOn(subproject.path)
 }
 
+// Bundle subprojects and their dependencies
+// Solution from https://discuss.gradle.org/t/how-to-get-gradle-install-to-actually-bundle-all-project-subproject-classes-resources-etc/12070
+subprojects.each { subproject ->
+  evaluationDependsOn(subproject.path)
+}
+jar {
+dependsOn subprojects.assemble
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    
+  subprojects.each { subproject ->
+    from subproject.configurations.archives.artifacts.files.collect {
+      zipTree(it)
+    }
+  }
+}
+
+/*
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     
@@ -16,3 +33,4 @@ jar {
 
   from subprojects.sourceSets.main.output
 }
+*/
