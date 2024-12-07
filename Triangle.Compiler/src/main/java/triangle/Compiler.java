@@ -18,6 +18,7 @@
 
 package triangle;
 
+import java.util.List;
 import triangle.abstractSyntaxTrees.Program;
 import triangle.codeGenerator.Emitter;
 import triangle.codeGenerator.Encoder;
@@ -27,6 +28,9 @@ import triangle.syntacticAnalyzer.Parser;
 import triangle.syntacticAnalyzer.Scanner;
 import triangle.syntacticAnalyzer.SourceFile;
 import triangle.treeDrawer.Drawer;
+import com.sampullara.cli.Args;
+import com.sampullara.cli.Argument;
+
 
 /**
  * The main driver class for the Triangle compiler.
@@ -37,9 +41,12 @@ import triangle.treeDrawer.Drawer;
 public class Compiler {
 
 	/** The filename for the object program, normally obj.tam. */
+    @Argument(alias = "o", description = "The filename for the object program.")
 	static String objectName = "obj.tam";
 	
+    @Argument(alias = "t", description = "Output the abstract syntax tree for the compilation.")
 	static boolean showTree = false;
+    @Argument(alias = "f", description = "Perform constant folding.")
 	static boolean folding = false;
 
 	private static Scanner scanner;
@@ -124,13 +131,13 @@ public class Compiler {
 	 *             source filename.
 	 */
 	public static void main(String[] args) {
+		
+		List<String> positionalArgs = Args.parseOrExit(Compiler.class, args);
 
 		if (args.length < 1) {
 			System.out.println("Usage: tc filename [-o=outputfilename] [tree] [folding]");
 			System.exit(1);
 		}
-		
-		parseArgs(args);
 
 		String sourceName = args[0];
 		
