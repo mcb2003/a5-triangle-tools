@@ -51,8 +51,12 @@ public class TestScanner {
 	@Test
 	public void testIncrement() {
 		compileExpectSuccess("/increment.tri");
+        }
+
+	@Test
+	public void testSquare() {
+		compileExpectSuccess("/square.tri");
 	}
-	
 	
 	
 	private void compileExpectSuccess(String filename) {

@@ -294,14 +294,25 @@ public class Parser {
                                      Vname vAST = parseRestOfVname(iAST);
                                      Expression eAST;
 
-                                     // This is either the increment operator ...
-                                     if (currentToken.kind == Token.Kind.OPERATOR && currentToken.spelling.equals("++")) {
+                                     // This is either a postfix unary operator ...
+                                     if (currentToken.kind == Token.Kind.OPERATOR) {
+                                         // Assemble an expression depending on the kind of postfix unary operator
+                                         VnameExpression lhs = new VnameExpression(vAST, commandPos);
+                                         Operator op;
+                                         Expression rhs;
+                                         switch (currentToken.spelling) {
+                                             case "++": // Increment operator
+                                                 op = new Operator("+", commandPos);
+                                                 rhs = new IntegerExpression(new IntegerLiteral("1", commandPos), commandPos);
+                                             case "**": // Square operator
+                                                 op = new Operator("*", commandPos);
+                                                 rhs = new VnameExpression(vAST, commandPos);
+                                                 break;
+                                             default: // Unrecognised operation
+                                                 throw new SyntaxError();
+                                         }
+                                         eAST = new BinaryExpression(lhs, op, rhs, commandPos);
                                          acceptIt();
-                                         // Assemble a "var + 1" expression
-                                         IntegerExpression one = new IntegerExpression(new IntegerLiteral("1", commandPos), commandPos);
-                                         VnameExpression varName = new VnameExpression(vAST, commandPos);
-                                         Operator addOp = new Operator("+", commandPos);
-                                         eAST = new BinaryExpression(varName, addOp, one, commandPos);
 
                                          // ... or it's an assignment
                                      } else {
@@ -309,8 +320,8 @@ public class Parser {
                                          eAST = parseExpression();
                                      }
 
-                                         finish(commandPos);
-                                         commandAST = new AssignCommand(vAST, eAST, commandPos);
+                                     finish(commandPos);
+                                     commandAST = new AssignCommand(vAST, eAST, commandPos);
                                  }
             }
             break;
