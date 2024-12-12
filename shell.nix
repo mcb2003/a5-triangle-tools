@@ -10,5 +10,6 @@ pkgs.mkShell {
   shellHook = ''
     alias tc='java -cp build/libs/Triangle-Tools.jar triangle.Compiler'
     alias ti='java -cp build/libs/Triangle-Tools.jar triangle.abstractMachine.Interpreter'
+    alias td='java -cp build/libs/Triangle-Tools.jar triangle.abstractMachine.Disassembler'
   '';
 }
