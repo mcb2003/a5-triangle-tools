@@ -42,6 +42,7 @@ import triangle.abstractSyntaxTrees.commands.CallCommand;
 import triangle.abstractSyntaxTrees.commands.EmptyCommand;
 import triangle.abstractSyntaxTrees.commands.IfCommand;
 import triangle.abstractSyntaxTrees.commands.LetCommand;
+import triangle.abstractSyntaxTrees.commands.RepeatCommand;
 import triangle.abstractSyntaxTrees.commands.SequentialCommand;
 import triangle.abstractSyntaxTrees.commands.WhileCommand;
 import triangle.abstractSyntaxTrees.declarations.BinaryOperatorDeclaration;
@@ -164,6 +165,12 @@ public final class Encoder implements ActualParameterVisitor<Frame, Integer>,
 		if (extraSize > 0) {
 			emitter.emit(OpCode.POP, extraSize);
 		}
+		return null;
+	}
+
+	@Override
+	public Void visitRepeatCommand(RepeatCommand ast, Frame frame) {
+            // TODO: Implement repeat-until
 		return null;
 	}
 
