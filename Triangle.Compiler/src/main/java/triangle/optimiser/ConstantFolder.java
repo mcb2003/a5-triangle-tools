@@ -572,7 +572,6 @@ public AbstractSyntaxTree visitRepeatCommand(RepeatCommand ast, Void arg) {
 	}
 
 	public AbstractSyntaxTree foldBinaryExpression(AbstractSyntaxTree node1, AbstractSyntaxTree node2, Operator o) {
-		// the only case we know how to deal with for now is two IntegerExpressions
 		if ((node1 instanceof IntegerExpression) && (node2 instanceof IntegerExpression)) {
 			int int1 = (Integer.parseInt(((IntegerExpression) node1).IL.spelling));
 			int int2 = (Integer.parseInt(((IntegerExpression) node2).IL.spelling));
@@ -580,6 +579,14 @@ public AbstractSyntaxTree visitRepeatCommand(RepeatCommand ast, Void arg) {
 			
 			if (o.decl == StdEnvironment.addDecl) {
 				foldedValue = int1 + int2;
+                        } else if (o.decl == StdEnvironment.subtractDecl) {
+				foldedValue = int1 - int2;
+                        } else if (o.decl == StdEnvironment.multiplyDecl) {
+				foldedValue = int1 * int2;
+                        } else if (o.decl == StdEnvironment.divideDecl) {
+				foldedValue = int1 / int2;
+                        } else if (o.decl == StdEnvironment.moduloDecl) {
+				foldedValue = int1 % int2;
 			}
 
 			if (foldedValue instanceof Integer) {
