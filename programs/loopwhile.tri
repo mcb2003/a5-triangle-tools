@@ -1,0 +1,9 @@
+let
+  var x: Integer
+in
+  loop
+    put('A')
+  while x < 5 do 
+    begin
+      x = x + 1
+    end;
