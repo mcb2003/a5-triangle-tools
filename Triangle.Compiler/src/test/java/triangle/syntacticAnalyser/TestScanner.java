@@ -57,6 +57,17 @@ public class TestScanner {
 	public void testSquare() {
 		compileExpectSuccess("/square.tri");
 	}
+
+        @Test
+        public void testIsLetter() {
+            compileExpectSuccess("/isletter-test1.tri");
+            compileExpectFailure("/isletter-test2.tri");
+        }
+
+        @Test
+        public void testIsOperator() {
+            compileExpectFailure("/isoperator-test1.tri");
+        }
 	
 	
 	private void compileExpectSuccess(String filename) {

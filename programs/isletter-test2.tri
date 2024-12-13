@@ -1,0 +1,7 @@
+let
+    var n~Items : Integer
+in
+
+	begin
+		n~Items := n + 1
+	end
