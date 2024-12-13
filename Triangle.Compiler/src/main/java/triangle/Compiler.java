@@ -19,6 +19,7 @@
 package triangle;
 
 import java.util.List;
+import triangle.SummaryVisitor;
 import triangle.abstractSyntaxTrees.Program;
 import triangle.codeGenerator.Emitter;
 import triangle.codeGenerator.Encoder;
@@ -50,6 +51,8 @@ public class Compiler {
     static boolean showTreeAfter = false;
     @Argument(alias = "f", description = "Perform constant folding.")
     static boolean folding = false;
+    @Argument(alias = "s", description = "Show a summary of program statistics")
+    static boolean showStats = false;
 
     private static Scanner scanner;
     private static Parser parser;
@@ -108,6 +111,12 @@ public class Compiler {
             }
             if (folding) {
                 theAST.visit(new ConstantFolder());
+            }
+            // Show program statistics if requested
+            if (showStats) {
+                SummaryVisitor summary = new SummaryVisitor();
+                theAST.visit(summary);
+                summary.printStatistics();
             }
                 if (showTreeAfter) {
                     System.out.println("Showing AST after folding");
